@@ -1,18 +1,23 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NARBY's Stuff</title>
+
     <style>
         /* 1. Global Reset & Retro Grid Background */
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             padding: 0;
             font-family: 'Courier New', Courier, monospace;
             background-color: #0d0d11;
-            /* Creates a retro synthwave style grid pattern */
-            background-image: 
+            background-image:
                 linear-gradient(to right, rgba(255, 0, 128, 0.1) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(255, 0, 128, 0.1) 1px, transparent 1px);
             background-size: 40px 40px;
@@ -29,22 +34,25 @@
             background-color: #16161f;
             border-bottom: 2px solid #ff007f;
             padding: 10px 20px;
-            box-sizing: border-box;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+
         .logo {
             font-weight: bold;
             color: #00ffff;
             letter-spacing: 2px;
         }
+
         .nav-links a {
             color: #ffffff;
             text-decoration: none;
             margin-left: 15px;
             font-size: 14px;
+            transition: color 0.2s ease;
         }
+
         .nav-links a:hover {
             color: #ff007f;
         }
@@ -54,10 +62,9 @@
             max-width: 800px;
             width: 100%;
             padding: 40px 20px;
-            box-sizing: border-box;
         }
 
-        /* 4. Retro Glitchy Content Box Layout */
+        /* 4. Retro Content Windows */
         .window-box {
             background-color: #16161f;
             border: 2px solid #ff007f;
@@ -66,6 +73,7 @@
             margin-bottom: 40px;
             overflow: hidden;
         }
+
         .window-header {
             background: linear-gradient(90deg, #ff007f, #aa00ff);
             padding: 6px 12px;
@@ -74,238 +82,290 @@
             display: flex;
             justify-content: space-between;
         }
+
         .window-content {
             padding: 24px;
         }
 
-        /* 5. Typography Customizations */
+        /* 5. Typography */
         h1 {
             color: #00ffff;
             margin-top: 0;
             font-size: 28px;
             text-transform: uppercase;
         }
+
         .highlight-text {
             color: #ff007f;
             font-weight: bold;
         }
 
-        /* 6. Simple Stat Layouts */
+        /* 6. Stat Layouts */
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
             margin-top: 20px;
         }
+
         .stat-card {
             background: #212130;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 15px;
             border-radius: 4px;
             text-align: center;
         }
+
         .stat-num {
             font-size: 24px;
             color: #ff007f;
             font-weight: bold;
             display: block;
         }
+
+        /* 7. Color-Adaptive Custom Cursor */
+        .narby-cursor,
+        .narby-cursor-dot {
+            position: fixed;
+            top: 0;
+            left: 0;
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
+        }
+
+        .narby-cursor {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #c7f346;
+            z-index: 99999;
+            transition:
+                width 180ms ease,
+                height 180ms ease;
+        }
+
+        .narby-cursor-dot {
+            width: 18px;
+            height: 18px;
+            background-color: #2444e8;
+            z-index: 100000;
+        }
+
+        /* Cursor expands over interactive elements */
+        .narby-cursor.is-hovering {
+            width: 72px;
+            height: 72px;
+        }
+
+        /* Hide the regular cursor on mouse-based devices */
+        @media (hover: hover) and (pointer: fine) {
+            body,
+            body a,
+            body button {
+                cursor: none;
+            }
+        }
+
+        /* Keep normal pointer behavior on touch devices */
+        @media (hover: none), (pointer: coarse) {
+            .narby-cursor,
+            .narby-cursor-dot {
+                display: none;
+            }
+
+            body,
+            body a,
+            body button {
+                cursor: auto;
+            }
+        }
+
+        /* 8. Mobile Layout */
+        @media (max-width: 500px) {
+            .navbar {
+                padding: 12px;
+                gap: 12px;
+                flex-wrap: wrap;
+            }
+
+            .logo {
+                font-size: 13px;
+            }
+
+            .nav-links a {
+                margin-left: 8px;
+                font-size: 11px;
+            }
+
+            .container {
+                padding: 25px 16px;
+            }
+
+            .window-content {
+                padding: 18px;
+            }
+
+            h1 {
+                font-size: 23px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .narby-cursor {
+                transition: none;
+            }
+        }
     </style>
 </head>
+
 <body>
 
-    <!-- Top Navigation Bar Menu -->
-    <div class="navbar">
+    <!-- Top Navigation Bar -->
+    <nav class="navbar">
         <div class="logo">NARBY // PORTFOLIO</div>
+
         <div class="nav-links">
             <a href="#profile">01 INFORMATION</a>
             <a href="#songs">02 PICTURES</a>
         </div>
-    </div>
+    </nav>
 
-    <div class="container">
+    <!-- Main Portfolio Content -->
+    <main class="container">
 
-        <!-- Main Introduction Window Card -->
-        <div id="profile" class="window-box">
+        <!-- Profile Window -->
+        <section id="profile" class="window-box">
             <div class="window-header">
                 <span>PROFILE.EXE</span>
                 <span>✖</span>
             </div>
+
             <div class="window-content">
                 <h1>Kamusta mga tao ng mundo.</h1>
-                <p>Welcome to the randomness of Narby <span class="highlight-text">A human but still a Idiot</span> Style by me</p>
-                <p>This layout is built with custom CSS grid patterns, bright neon box shadows, and retro block containers.</p>
+
+                <p>
+                    Welcome to the randomness of Narby
+                    <span class="highlight-text">A human but still a Idiot</span>
+                    Style by me
+                </p>
+
+                <p>
+                    This layout is built with custom CSS grid patterns,
+                    bright neon box shadows, and retro block containers.
+                </p>
             </div>
-        </div>
+        </section>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Color-Adaptive Cursor</title>
+        <!-- Pictures Window -->
+        <section id="songs" class="window-box">
+            <div class="window-header">
+                <span>PICTURES.EXE</span>
+                <span>✖</span>
+            </div>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      cursor: none;
-    }
+            <div class="window-content">
+                <h1>02 // Pictures</h1>
+                <p>
+                    A space for my pictures, memories, and random stuff.
+                </p>
+                <p class="highlight-text">
+                    More content coming soon...
+                </p>
+            </div>
+        </section>
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      overflow: hidden;
-      font-family: Arial, sans-serif;
-      background: #f2e1ff;
-    }
+    </main>
 
-    /* Demo background */
-    .background {
-      position: fixed;
-      inset: 0;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      z-index: 0;
-    }
+    <!-- Custom Cursor Elements -->
+    <div class="narby-cursor" id="narbyCursor"></div>
+    <div class="narby-cursor-dot" id="narbyCursorDot"></div>
 
-    .lavender {
-      background: linear-gradient(135deg, #e9d9ff, #c7a7ed);
-    }
+    <script>
+        (() => {
+            const ring = document.getElementById("narbyCursor");
+            const dot = document.getElementById("narbyCursorDot");
 
-    .pink {
-      background: linear-gradient(135deg, #ff2997, #f50075);
-    }
+            if (!ring || !dot) return;
 
-    .content {
-      position: relative;
-      z-index: 1;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      pointer-events: none;
-    }
+            const mouseDevice = window.matchMedia(
+                "(hover: hover) and (pointer: fine)"
+            );
 
-    h1 {
-      font-size: clamp(2rem, 6vw, 4rem);
-      color: #ffffff;
-      mix-blend-mode: difference;
-    }
+            if (!mouseDevice.matches) return;
 
-    /* Custom cursor */
-    .cursor {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 50px;
-      height: 50px;
-      border: 1px solid #c7f346;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      mix-blend-mode: difference;
-      transform: translate(-50%, -50%);
-      will-change: left, top, transform;
-      transition:
-        width 180ms ease,
-        height 180ms ease;
-    }
+            let mouseX = -100;
+            let mouseY = -100;
+            let ringX = -100;
+            let ringY = -100;
+            let animationFrame;
 
-    .cursor-dot {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: #2444e8;
-      pointer-events: none;
-      z-index: 10000;
-      mix-blend-mode: difference;
-      transform: translate(-50%, -50%);
-      will-change: left, top;
-    }
+            window.addEventListener("mousemove", (event) => {
+                mouseX = event.clientX;
+                mouseY = event.clientY;
 
-    .cursor.hover {
-      width: 72px;
-      height: 72px;
-    }
+                dot.style.left = mouseX + "px";
+                dot.style.top = mouseY + "px";
 
-    /* Keep normal cursor behavior on touch devices */
-    @media (hover: none), (pointer: coarse) {
-      * {
-        cursor: auto;
-      }
+                if (!ring.classList.contains("visible")) {
+                    ring.classList.add("visible");
+                    ringX = mouseX;
+                    ringY = mouseY;
+                }
+            });
 
-      .cursor,
-      .cursor-dot {
-        display: none;
-      }
-    }
-  </style>
-</head>
+            function animateCursor() {
+                ringX += (mouseX - ringX) * 0.16;
+                ringY += (mouseY - ringY) * 0.16;
 
-<body>
-  <div class="background">
-    <div class="lavender"></div>
-    <div class="pink"></div>
-  </div>
+                ring.style.left = ringX + "px";
+                ring.style.top = ringY + "px";
 
-  <main class="content">
-    <h1>Move Your Cursor</h1>
-  </main>
+                animationFrame = requestAnimationFrame(animateCursor);
+            }
 
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-dot" id="cursorDot"></div>
+            animateCursor();
 
-  <script>
-    const ring = document.getElementById("cursor");
-    const dot = document.getElementById("cursorDot");
+            // Enlarge the ring over links and buttons
+            document.querySelectorAll("a, button").forEach((element) => {
+                element.addEventListener("mouseenter", () => {
+                    ring.classList.add("is-hovering");
+                });
 
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
+                element.addEventListener("mouseleave", () => {
+                    ring.classList.remove("is-hovering");
+                });
+            });
 
-    let ringX = mouseX;
-    let ringY = mouseY;
+            // Hide cursor when the mouse leaves the page
+            document.addEventListener("mouseleave", () => {
+                ring.style.opacity = "0";
+                dot.style.opacity = "0";
+            });
 
-    let dotX = mouseX;
-    let dotY = mouseY;
+            document.addEventListener("mouseenter", () => {
+                ring.style.opacity = "1";
+                dot.style.opacity = "1";
+            });
 
-    window.addEventListener("mousemove", (event) => {
-      mouseX = event.clientX;
-      mouseY = event.clientY;
-    });
+            // Stop animation if the tab is hidden
+            document.addEventListener("visibilitychange", () => {
+                if (document.hidden) {
+                    cancelAnimationFrame(animationFrame);
+                } else {
+                    animateCursor();
+                }
+            });
+        })();
+    </script>
 
-    // Smooth trailing animation
-    function animate() {
-      ringX += (mouseX - ringX) * 0.15;
-      ringY += (mouseY - ringY) * 0.15;
+</body>
+</html>
 
-      dotX += (mouseX - dotX) * 0.35;
-      dotY += (mouseY - dotY) * 0.35;
-
-      ring.style.left = `${ringX}px`;
-      ring.style.top = `${ringY}px`;
-
-      dot.style.left = `${dotX}px`;
-      dot.style.top = `${dotY}px`;
-
-      requestAnimationFrame(animate);
-    }
-
-    animate();
-
-    // Enlarge the ring over interactive elements
-    document.querySelectorAll("a, button, [data-cursor-hover]")
-      .forEach((element) => {
-        element.addEventListener("mouseenter", () => {
-          ring.classList.add("hover");
-        });
-
-        element.addEventListener("mouseleave", () => {
-          ring.classList.remove("hover");
-        });
       });
   </script>
 </body>
