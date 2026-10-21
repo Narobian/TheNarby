@@ -137,3 +137,176 @@
                 <p>This layout is built with custom CSS grid patterns, bright neon box shadows, and retro block containers.</p>
             </div>
         </div>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Color-Adaptive Cursor</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      cursor: none;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: #f2e1ff;
+    }
+
+    /* Demo background */
+    .background {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      z-index: 0;
+    }
+
+    .lavender {
+      background: linear-gradient(135deg, #e9d9ff, #c7a7ed);
+    }
+
+    .pink {
+      background: linear-gradient(135deg, #ff2997, #f50075);
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 6vw, 4rem);
+      color: #ffffff;
+      mix-blend-mode: difference;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 50px;
+      height: 50px;
+      border: 1px solid #c7f346;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: difference;
+      transform: translate(-50%, -50%);
+      will-change: left, top, transform;
+      transition:
+        width 180ms ease,
+        height 180ms ease;
+    }
+
+    .cursor-dot {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #2444e8;
+      pointer-events: none;
+      z-index: 10000;
+      mix-blend-mode: difference;
+      transform: translate(-50%, -50%);
+      will-change: left, top;
+    }
+
+    .cursor.hover {
+      width: 72px;
+      height: 72px;
+    }
+
+    /* Keep normal cursor behavior on touch devices */
+    @media (hover: none), (pointer: coarse) {
+      * {
+        cursor: auto;
+      }
+
+      .cursor,
+      .cursor-dot {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="background">
+    <div class="lavender"></div>
+    <div class="pink"></div>
+  </div>
+
+  <main class="content">
+    <h1>Move Your Cursor</h1>
+  </main>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+
+  <script>
+    const ring = document.getElementById("cursor");
+    const dot = document.getElementById("cursorDot");
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+
+    let ringX = mouseX;
+    let ringY = mouseY;
+
+    let dotX = mouseX;
+    let dotY = mouseY;
+
+    window.addEventListener("mousemove", (event) => {
+      mouseX = event.clientX;
+      mouseY = event.clientY;
+    });
+
+    // Smooth trailing animation
+    function animate() {
+      ringX += (mouseX - ringX) * 0.15;
+      ringY += (mouseY - ringY) * 0.15;
+
+      dotX += (mouseX - dotX) * 0.35;
+      dotY += (mouseY - dotY) * 0.35;
+
+      ring.style.left = `${ringX}px`;
+      ring.style.top = `${ringY}px`;
+
+      dot.style.left = `${dotX}px`;
+      dot.style.top = `${dotY}px`;
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    // Enlarge the ring over interactive elements
+    document.querySelectorAll("a, button, [data-cursor-hover]")
+      .forEach((element) => {
+        element.addEventListener("mouseenter", () => {
+          ring.classList.add("hover");
+        });
+
+        element.addEventListener("mouseleave", () => {
+          ring.classList.remove("hover");
+        });
+      });
+  </script>
+</body>
+</html>
